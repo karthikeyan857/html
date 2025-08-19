@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodSketch | Restaurant Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f9fa;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .drawing-canvas {
+            touch-action: none;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 16px;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .restaurant-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button {
+            position: relative;
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- App Header -->
+    <header class="sticky top-0 z-10 bg-white shadow-sm p-4">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray 900">Food<span class="text-red-500">Sketch</span></h1>
+            <div class="flex space-x-4">
+                <button id="favoritesBtn" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button id="drawToggleBtn" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.316 3.05a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex justify-center mt-4 space-x-8">
+            <button class="tab-button active px-4 py-2 font-medium text-gray-800">Nearby</button>
+            <button class="tab-button px-4 py-2 font-medium text-gray-500">Popular</button>
+            <button class="tab-button px-4 py-2 font-medium text-gray-500">Trending</button>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="p-4 pb-20">
+        <!-- Search Bar -->
+        <div class="relative mb-6">
+            <input type="text" placeholder="Search restaurants..." class="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3.5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            </svg>
+        </div>
+        
+        <!-- Featured Restaurants -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Featured Restaurants</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Restaurant Card 1 -->
+                <div class="restaurant-card bg-white rounded-xl overflow-hidden animate-slideIn">
+                    <div class="relative">
+                        <img src="https://placehold
